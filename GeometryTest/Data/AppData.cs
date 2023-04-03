@@ -1,0 +1,14 @@
+﻿using GeometryTest.Shapes.Base;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GeometryTest.Data
+{
+    internal class AppData
+    {
+        public static List<Shape> shapes = new List<Shape>();
+    }
+}
