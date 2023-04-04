@@ -3,46 +3,53 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GeometryTest.Data;
 using GeometryTest.Interface;
+using GeometryTest.Shapes;
 
 namespace GeometryTest.Items.PerformTheTransformationItem
 {
     internal class PerformTheTransformationItem : IMenuItem
     {
-        public string title { get; }
-
-        IMenuItem[] menuItems =
-            {
-                //new MenuItem("Triangle"),
-                //new MenuItem("Rectangle"),
-                //new MenuItem("Square"),
-                //new MenuItem("Circle"),
-                //new MenuItem("Cancel")
-            };
+        public string Title { get; }
 
         public PerformTheTransformationItem(string title)
         {
-            this.title = title;
+            this.Title = title;
 
         }
         public void ShowIn()
         {
             Console.Clear();
-            foreach (var item in menuItems)
-            {
-                Console.WriteLine(item.title);
-            }
+            Console.WriteLine("Transformation completed");
         }
         public void ShowMe(int num)
         {
-            Console.WriteLine($"{num}. {title}");
+            Console.WriteLine($"{num}. {Title}");
         }
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
         {
-            if (e.Key == ConsoleKey.D1 || e.Key == ConsoleKey.NumPad1)
+            for (int i = 0; i < AppData.s_shapes.Count; i++)
             {
-                //ShowIn();
+                if (AppData.s_shapes[i] is Circle)
+                {
+                    AppData.s_shapes[i] = (Square)AppData.s_shapes[i];
+                }
+                else if(AppData.s_shapes[i] is Square)
+                {
+                    AppData.s_shapes[i] = (Circle)AppData.s_shapes[i];
+                }
+                else if(AppData.s_shapes[i] is Rectangle)
+                {
+                    AppData.s_shapes[i] = (Triangle)AppData.s_shapes[i];
+                }
+                else if (AppData.s_shapes[i] is Triangle)
+                {
+                    AppData.s_shapes[i] = (Rectangle)AppData.s_shapes[i];
+                }
             }
+            ShowIn();
+            Console.ReadKey(true);
         }
     }
 }

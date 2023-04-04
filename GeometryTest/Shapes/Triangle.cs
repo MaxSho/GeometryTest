@@ -9,10 +9,10 @@ namespace GeometryTest.Shapes
 {
     internal class Triangle: Shape
     {
-        public uint a { get; }
-        public uint b { get; }
-        public uint c { get; }
-        public Triangle(uint a, uint b, uint c)
+        public double A { get; }
+        public double B { get; }
+        public double C { get; }
+        public Triangle(double a, double b, double c)
         {
             if(a < 0)
             {
@@ -27,18 +27,26 @@ namespace GeometryTest.Shapes
                 c = 0;
             }
 
-            this.a = a;
-            this.b = b;
-            this.c = c;
+            this.A = a;
+            this.B = b;
+            this.C = c;
         }
         public override string? ToString()
         {
-            return $"Triangle - a: {a}, b: {b}, c: {c} - Perimeter: {GetPerimeter()}";
+            return $"Triangle - a: {A}, b: {B}, c: {C} - Perimeter: {GetPerimeter()}";
         }
 
         public override double GetPerimeter()
         {
-            return a + b + c;
+            return A + B + C;
+        }
+        public static bool IsExist(double a, double b, double c)
+        {
+            return a < b + c && b < c + a && c < a + b;
+        }
+        public static explicit operator Rectangle(Triangle triangle)
+        {
+            return new Rectangle(triangle.A, triangle.B);
         }
     }
 }

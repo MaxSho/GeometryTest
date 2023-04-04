@@ -10,20 +10,20 @@ namespace GeometryTest.Items.AddNewShapeItem
 {
     internal class AddNewShapeItem : IMenuItem
     {
+        public string Title { get; }
 
-        public string title { get; }
-        ISubItem[] menuItems;
-        ConsoleKeyInfo cki;
-        event EventHandler<ConsoleKeyInfo> handler1;
-        event EventHandler<ConsoleKeyInfo> handler2;
-        event EventHandler<ConsoleKeyInfo> handler3;
-        event EventHandler<ConsoleKeyInfo> handler4;
-        event EventHandler<ConsoleKeyInfo> handler5;
-        List<EventHandler<ConsoleKeyInfo>> eventHandlers;
+        private ISubItem[] menuItems;
+        private ConsoleKeyInfo cki;
+        private event EventHandler<ConsoleKeyInfo> handler1;
+        private event EventHandler<ConsoleKeyInfo> handler2;
+        private event EventHandler<ConsoleKeyInfo> handler3;
+        private event EventHandler<ConsoleKeyInfo> handler4;
+        private event EventHandler<ConsoleKeyInfo> handler5;
+        private List<EventHandler<ConsoleKeyInfo>> eventHandlers;
 
         public AddNewShapeItem(string title)
         {
-            this.title = title;
+            this.Title = title;
 
             menuItems = new ISubItem[]
             {
@@ -94,7 +94,7 @@ namespace GeometryTest.Items.AddNewShapeItem
         }
         public void ShowMe(int num)
         {
-            Console.WriteLine($"{num}. {title}");
+            Console.WriteLine($"{num}. {Title}");
         }
 
     }

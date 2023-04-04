@@ -8,7 +8,7 @@ namespace GeometryTest.Interface
 {
     internal interface IMenuItem
     {
-        public string title { get; }
+        public string Title { get; }
         public void ShowIn();
         public void ShowMe(int num);
         public void Menu_handler(object? sender, ConsoleKeyInfo e);

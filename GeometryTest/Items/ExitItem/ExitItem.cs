@@ -9,10 +9,10 @@ namespace GeometryTest.Items.ExitItem
 {
     internal class ExitItem : IMenuItem
     {
-        public string title { get; }
+        public string Title { get; }
         public ExitItem(string title)
         {
-            this.title = title;
+            this.Title = title;
         }
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
         {
@@ -26,7 +26,7 @@ namespace GeometryTest.Items.ExitItem
 
         public void ShowMe(int num)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{num}. {Title}");
         }
     }
 }

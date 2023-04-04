@@ -9,7 +9,7 @@ namespace GeometryTest.Shapes
 {
     internal class Circle: Shape
     {
-        public double radius { get; }
+        public double Radius { get; }
         public Circle(double radius)
         {
             
@@ -18,16 +18,23 @@ namespace GeometryTest.Shapes
                 radius = 0;
             }
 
-            this.radius = radius;
+            this.Radius = radius;
         }
         public override string? ToString()
         {
-            return $"Circle - radius: {radius} - Perimeter - {GetPerimeter()}";
+            return $"Circle - Radius: {Radius} - Perimeter - {GetPerimeter()}";
         }
 
         public override double GetPerimeter()
         {
-            return radius * 2 * Math.PI;
+            return Radius * 2 * Math.PI;
         }
+
+        public new Type GetType()
+        {
+            // Власний код для отримання типу
+            return typeof(Circle);
+        }
+
     }
 }

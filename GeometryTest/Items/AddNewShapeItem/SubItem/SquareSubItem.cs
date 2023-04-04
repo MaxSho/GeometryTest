@@ -10,10 +10,10 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
 {
     internal class SquareSubItem: ISubItem
     {
-        public string title { get; }
+        public string Title { get; }
         public SquareSubItem(string title)
         {
-            this.title = title;
+            this.Title = title;
         }
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
         {
@@ -27,7 +27,7 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
                 {
                     if (width < 0)
                         continue;
-                    AppData.shapes.Add(new GeometryTest.Shapes.Square(width));
+                    AppData.s_shapes.Add(new GeometryTest.Shapes.Square(width));
                     Console.WriteLine("Square added");
                     break;
                 }
@@ -35,7 +35,17 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
         }
         public void ShowMe(int num)
         {
-            Console.WriteLine($"{num}. {title}");
+            Console.WriteLine($"{num}. {Title}");
+        }
+
+        public void ShowMe()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShowMe(ConsoleKey consoleKey)
+        {
+            throw new NotImplementedException();
         }
     }
 }

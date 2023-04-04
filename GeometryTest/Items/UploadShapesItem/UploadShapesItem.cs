@@ -9,7 +9,7 @@ namespace GeometryTest.Items.UploadShapesItem
 {
     internal class UploadShapesItem : IMenuItem
     {
-        public string title { get; }
+        public string Title { get; }
 
         IMenuItem[] menuItems =
             {
@@ -22,7 +22,7 @@ namespace GeometryTest.Items.UploadShapesItem
 
         public UploadShapesItem(string title)
         {
-            this.title = title;
+            this.Title = title;
 
         }
         public void ShowIn()
@@ -30,12 +30,12 @@ namespace GeometryTest.Items.UploadShapesItem
             Console.Clear();
             foreach (var item in menuItems)
             {
-                Console.WriteLine(item.title);
+                Console.WriteLine(item.Title);
             }
         }
         public void ShowMe(int num)
         {
-            Console.WriteLine($"{num}. {title}");
+            Console.WriteLine($"{num}. {Title}");
         }
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
         {

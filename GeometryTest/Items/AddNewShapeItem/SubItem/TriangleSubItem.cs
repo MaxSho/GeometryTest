@@ -10,10 +10,10 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
 {
     internal class TriangleSubItem: ISubItem
     {
-        public string title { get; }
+        public string Title { get; }
         public TriangleSubItem(string title)
         { 
-            this.title = title;
+            this.Title = title;
         }
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
         {
@@ -52,10 +52,12 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
                                 var cStr = Console.ReadLine();
                                 if (uint.TryParse(cStr, out var c))
                                 {
-                                    if (c < 0)
+                                    if (c < 0 || GeometryTest.Shapes.Triangle.IsExist(a, b, c))
                                         continue;
-                                    AppData.shapes.Add(new GeometryTest.Shapes.Triangle(a, b, c));
+
+                                    AppData.s_shapes.Add(new GeometryTest.Shapes.Triangle(a, b, c));
                                     Console.WriteLine("Triangle added");
+                                    Console.ReadKey();
                                     isExit = true;
                                     break;
                                 }
@@ -77,7 +79,17 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
         }
         public void ShowMe(int num)
         {
-            Console.WriteLine($"{num}. {title}");
+            Console.WriteLine($"{num}. {Title}");
+        }
+
+        public void ShowMe()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShowMe(ConsoleKey consoleKey)
+        {
+            throw new NotImplementedException();
         }
     }
 }

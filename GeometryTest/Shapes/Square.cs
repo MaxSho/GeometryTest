@@ -9,25 +9,29 @@ namespace GeometryTest.Shapes
 {
     internal class Square: Shape
     {
-        public uint width { get; }
-        public Square(uint width)
+        public double Width { get; }
+        public Square(double width)
         {
-            if(width < 0)
+            if(Width < 0)
             {
                 width = 0;
             }
             
-            this.width = width;
+            this.Width = width;
         }
 
         public override string? ToString()
         {
-            return $"Square - width: {width} - Perimeter - {GetPerimeter()}";
+            return $"Square - Width: {Width} - Perimeter - {GetPerimeter()}";
         }
 
         public override double GetPerimeter()
         {
-            return 4 * width;
+            return 4 * Width;
+        }
+        public static explicit operator Circle (Square square)
+        {
+            return new Circle(square.Width / 2.0);
         }
     }
 }

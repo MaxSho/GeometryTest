@@ -5,27 +5,31 @@ using System.Text;
 using System.Threading.Tasks;
 using GeometryTest.Data;
 using GeometryTest.Interface;
+using GeometryTest.Items.ViewAllShapesItem.SubItem;
 
 namespace GeometryTest.Items.ViewAllShapesItem
 {
     internal class ViewAllShapesItem : IMenuItem
     {
-        public string title { get; }
+        public string Title { get; }
+        private Dictionary<ConsoleKey, ISubItem> _menuSubItems = new();
 
         public ViewAllShapesItem(string title)
         {
-            this.title = title;
-
+            this.Title = title;
+            InsertMenuItems();
         }
         public void ShowIn()
         {
+            InsertMenuItems();
+
             Console.Clear();
-            if(AppData.shapes.Count > 0 )
+            if (_menuSubItems.Count > 0)
             {
                 Console.WriteLine("\tShapes:");
-                foreach (var item in AppData.shapes)
+                foreach (var item in _menuSubItems)
                 {
-                    Console.WriteLine(item);
+                    item.Value.ShowMe(item.Key);
                 }
             }
             else
@@ -37,16 +41,26 @@ namespace GeometryTest.Items.ViewAllShapesItem
         }
         public void ShowMe(int num)
         {
-            Console.WriteLine($"{num}. {title}");
+            Console.WriteLine($"{num}. {Title}");
         }
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
         {
             ShowIn();
 
-            //if (e.Key == ConsoleKey.D1 || e.Key == ConsoleKey.NumPad1)
-            //{
-            //    // ShowIn();
-            //}
+        }
+        public void InsertMenuItems()
+        {
+            _menuSubItems = new Dictionary<ConsoleKey, ISubItem>();
+
+            for (int i = 0; i < AppData.s_shapes.Count; i++)
+            {
+                _menuSubItems.Add(AppData.s_numberingOrder[i],
+                        new ViewShapeSubItem(
+                            AppData.s_shapes[i]?.ToString() ?? "not specified",
+                            AppData.s_numberingOrder[i]
+                            )
+                    );
+            }
         }
     }
 }

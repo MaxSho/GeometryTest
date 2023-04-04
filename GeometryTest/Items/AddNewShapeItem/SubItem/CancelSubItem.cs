@@ -9,10 +9,10 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
 {
     internal class CancelSubItem : ISubItem
     {
-        public string title { get; }
+        public string Title { get; }
         public CancelSubItem(string title)
         {
-            this.title = title;
+            this.Title = title;
         }
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
         {
@@ -21,7 +21,17 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
 
         public void ShowMe(int num)
         {
-            Console.WriteLine($"{num}. {title}");
+            Console.WriteLine($"{num}. {Title}");
+        }
+
+        public void ShowMe()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ShowMe(ConsoleKey consoleKey)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -9,8 +9,8 @@ namespace GeometryTest.Shapes
 {
     internal class Rectangle: Shape
     {
-        public double width { get; }
-        public double height { get; }
+        public double Width { get; }
+        public double Height { get; }
         public Rectangle(double width, double height) 
         {
             
@@ -24,18 +24,24 @@ namespace GeometryTest.Shapes
                 height = 0;
             }
 
-            this.width = width;
-            this.height = height;
+            this.Width = width;
+            this.Height = height;
         }
 
         public override string? ToString()
         {
-            return $"Rectangle - width: {width}, height: {height} - Perimeter - {GetPerimeter()}";
+            return $"Rectangle - Width: {Width}, Height: {Height} - Perimeter - {GetPerimeter()}";
         }
 
         public override double GetPerimeter()
         {
-            return 2 * (width + height);
+            return 2 * (Width + Height);
+        }
+        public static explicit operator Triangle(Rectangle rectangle)
+        {
+            return new Triangle(rectangle.Width, rectangle.Height,
+                Math.Sqrt(rectangle.Width * rectangle.Width +
+                            rectangle.Height * rectangle.Height));
         }
     }
 }
