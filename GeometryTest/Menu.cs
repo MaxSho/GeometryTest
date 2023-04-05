@@ -19,46 +19,27 @@ namespace GeometryTest
     internal class Menu
     {
         private ConsoleKeyInfo _cki;
-        public event EventHandler<ConsoleKeyInfo> Handler1;
-        public event EventHandler<ConsoleKeyInfo> Handler2;
-        public event EventHandler<ConsoleKeyInfo> Handler3;
-        public event EventHandler<ConsoleKeyInfo> Handler4;
-        public event EventHandler<ConsoleKeyInfo> Handler5;
-        public event EventHandler<ConsoleKeyInfo> Handler6;
-        public event EventHandler<ConsoleKeyInfo> Handler7;
-        private List<EventHandler<ConsoleKeyInfo>> _eventHandlers;
-        private readonly IMenuItem[] _menuItems;
+
+        private Dictionary<ConsoleKey, IMenuItem> _menuItems = new();
+        private List<EventHandler<ConsoleKeyInfo>> _eventHandlers =
+            new List<EventHandler<ConsoleKeyInfo>>();
         public Menu() 
         {
-            _menuItems = new IMenuItem[]
+            var _listmenuItems = new IMenuItem[]
             {
                 new AddNewShapeItem("Add a new shape"),
                 new ViewAllShapesItem("View all shapes"),
                 new DeleteShapesItem("Delete shapes"),
                 new PerformTheTransformationItem("Perform the transformation"),
                 new SaveShapesItem("Save shapes"),
-                new UploadShapesItem("Upload shapes"),
-                new ExitItem("Exit")
+                new UploadShapesItem("Upload shapes")
             };
 
-            Handler1 += _menuItems[0].Menu_handler;
-            Handler2 += _menuItems[1].Menu_handler;
-            Handler3 += _menuItems[2].Menu_handler;
-            Handler4 += _menuItems[3].Menu_handler;
-            Handler5 += _menuItems[4].Menu_handler;
-            Handler6 += _menuItems[5].Menu_handler;
-            Handler7 += _menuItems[6].Menu_handler;
-
-            _eventHandlers = new()
+            for (int i = 0; i < _listmenuItems.Length; i++)
             {
-                Handler1,
-                Handler2,
-                Handler3,
-                Handler4,
-                Handler5,
-                Handler6,
-                Handler7
-            };
+                _menuItems.Add(AppData.s_numberingOrder[i], _listmenuItems[i]);
+                _eventHandlers.Add(_listmenuItems[i].Menu_handler);
+            }
 
         }
         public void Startup()
@@ -67,51 +48,30 @@ namespace GeometryTest
             {
                 
                 Show();
-                Console.Write("Press any key, or 'X' to quit, or ");
-
-                // Start a console read operation. Do not display the input.
                 _cki = Console.ReadKey(true);
-                // Announce the name of the key that was pressed .
+
+                var indCKI = AppData.s_numberingOrder.IndexOf(_cki.Key);
+
                 Console.WriteLine($"  Key pressed: {_cki.Key}\n");
 
-                if (_cki.Key == ConsoleKey.D1 || _cki.Key == ConsoleKey.NumPad1)
+                if (indCKI != -1 && indCKI < _eventHandlers.Count)
                 {
-                    _eventHandlers[0].Invoke(this, _cki);
+                    _eventHandlers[indCKI].Invoke(this, _cki);
                 }
-                else if (_cki.Key == ConsoleKey.D2 || _cki.Key == ConsoleKey.NumPad2)
+                else if (indCKI == _eventHandlers.Count)
                 {
-                    _eventHandlers[1].Invoke(this, _cki);
-                }
-                else if (_cki.Key == ConsoleKey.D3 || _cki.Key == ConsoleKey.NumPad3)
-                {
-                    _eventHandlers[2].Invoke(this, _cki);
-                }
-                else if (_cki.Key == ConsoleKey.D4 || _cki.Key == ConsoleKey.NumPad4)
-                {
-                    _eventHandlers[3].Invoke(this, _cki);
-                }
-                else if (_cki.Key == ConsoleKey.D5 || _cki.Key == ConsoleKey.NumPad5)
-                {
-                    _eventHandlers[4].Invoke(this, _cki);
-                }
-                else if (_cki.Key == ConsoleKey.D6 || _cki.Key == ConsoleKey.NumPad6)
-                {
-                    _eventHandlers[5].Invoke(this, _cki);
-                }
-                else if (_cki.Key == ConsoleKey.D7 || _cki.Key == ConsoleKey.NumPad7)
-                {
-                    _eventHandlers[6].Invoke(this, _cki);
                     break;
                 }
-                var t = AppData.s_shapes;
+
             }
         }
         public void Show()
         {
             Console.Clear();
-            for (int i = 0; i < _menuItems.Length; i++)
+
+            foreach (var item in _menuItems)
             {
-                _menuItems[i].ShowMe(i + 1);
+                item.Value.ShowMe(i + 1);
             }
         }
     }

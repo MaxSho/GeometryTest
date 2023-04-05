@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using GeometryTest.Data;
 using GeometryTest.Interface;
 using Newtonsoft.Json;
+using GeometryTest.Shapes.Base;
 
 namespace GeometryTest.Items.SaveShapesItem
 {
@@ -50,12 +51,21 @@ namespace GeometryTest.Items.SaveShapesItem
                 }
                 try
                 {
-                    
-                    using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
+                    string json = JsonConvert.SerializeObject(AppData.s_shapes, Newtonsoft.Json.Formatting.Indented, new JsonSerializerSettings
                     {
-                        JsonSerializer serializer = new JsonSerializer();
-                        serializer.Serialize(file, AppData.GetDictionaryTypeShape()/*AppData.s_shapes*/);
+                        TypeNameHandling = TypeNameHandling.Auto
+                    });
+
+                    using(System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
+                    {
+                        file.WriteLine(json);
                     }
+
+                    //using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
+                    //{
+                    //    JsonSerializer serializer = new JsonSerializer();
+                    //    serializer.Serialize(file, AppData.s_shapes);
+                    //}
 
                     Console.WriteLine("Saving completed successfully");
                 }
@@ -66,7 +76,7 @@ namespace GeometryTest.Items.SaveShapesItem
             }
             else
             {
-                Console.WriteLine("Could not save shapes to file.");
+                Console.WriteLine("The path is specified with errors.");
             }
 
 

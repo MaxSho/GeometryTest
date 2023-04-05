@@ -3,22 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GeometryTest.Data;
 using GeometryTest.Interface;
+using GeometryTest.Shapes.Base;
+using Newtonsoft.Json;
 
 namespace GeometryTest.Items.UploadShapesItem
 {
     internal class UploadShapesItem : IMenuItem
     {
         public string Title { get; }
-
-        IMenuItem[] menuItems =
-            {
-                //new MenuItem("Triangle"),
-                //new MenuItem("Rectangle"),
-                //new MenuItem("Square"),
-                //new MenuItem("Circle"),
-                //new MenuItem("Cancel")
-            };
 
         public UploadShapesItem(string title)
         {
@@ -28,10 +22,6 @@ namespace GeometryTest.Items.UploadShapesItem
         public void ShowIn()
         {
             Console.Clear();
-            foreach (var item in menuItems)
-            {
-                Console.WriteLine(item.Title);
-            }
         }
         public void ShowMe(int num)
         {
@@ -39,10 +29,65 @@ namespace GeometryTest.Items.UploadShapesItem
         }
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
         {
-            if (e.Key == ConsoleKey.D1 || e.Key == ConsoleKey.NumPad1)
+            ShowIn();
+
+            Console.Write("Enter name of file to load (example: Myshapes): ");
+
+            string? fileName = Console.ReadLine();
+
+            Console.WriteLine("Enter path of directory to load (example: C:\\temp): ");
+
+            string? fileDir = Console.ReadLine();
+
+
+
+            if (fileDir != null && fileName != null && Directory.Exists(fileDir))
             {
-                //ShowIn();
+                string filePath = Path.Combine(fileDir, fileName + ".json");
+                try
+                {
+                    string json;
+                    using (StreamReader file = new StreamReader(filePath))
+                    {
+                        json = file.ReadToEnd();
+                    }
+
+
+                        List<Shape> deserializedShapes = JsonConvert.DeserializeObject<List<Shape>>(json, new JsonSerializerSettings
+                        {
+                            TypeNameHandling = TypeNameHandling.Auto
+                        });
+
+                    AppData.s_shapes.Clear();
+                    AppData.s_shapes.AddRange(deserializedShapes);
+
+                    //JsonSerializerSettings settings = new JsonSerializerSettings();
+                    //settings.TypeNameHandling = TypeNameHandling.Auto;
+                    //List<Shape> shapes;
+
+                    //using (StreamReader file = new StreamReader(filePath))
+                    //{
+                    //    string jsonData = file.ReadToEnd();
+                    //    shapes = JsonConvert.DeserializeObject<List<Shape>>(jsonData, settings);
+                    //}
+
+                    //AppData.s_shapes.Clear();
+                    //AppData.s_shapes.AddRange(shapes);
+
+                    Console.WriteLine("All shapes have  been uploaded");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Could not upload shapes from file. Error saving JSON to " + filePath + ": " + ex.Message);
+                }
             }
+            else
+            {
+                Console.WriteLine("The path is specified with errors.");
+            }
+
+
+            Console.ReadKey();
         }
     }
 }

@@ -56,16 +56,7 @@ namespace GeometryTest.Data
             else
                 return consoleKey.ToString();
         }
-        
-        public static List<Tuple<string, Shape>> GetDictionaryTypeShape()
-        {
-            var d = new List<Tuple<string, Shape>>();
-            foreach (var item in s_shapes)
-            {
-                d.Add(new Tuple<string, Shape>(item.GetType().Name, item));
-            }
-            return d;
-        }
+      
         
     }
 }

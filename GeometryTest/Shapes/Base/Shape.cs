@@ -16,10 +16,6 @@ namespace GeometryTest.Shapes.Base
         {
             return 0;
         }
-        public virtual void AddToGlobal()
-        {
-            
-        }
         
     }
 }
