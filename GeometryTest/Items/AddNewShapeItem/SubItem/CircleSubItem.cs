@@ -30,23 +30,14 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
 
                     AppData.s_shapes.Add(new GeometryTest.Shapes.Circle(radius));
                     Console.WriteLine("Circle added");
+                    Console.ReadKey();
                     break;
                 }
             }
         }
-        public void ShowMe(int num)
-        {
-            Console.WriteLine($"{num}. {Title}");
-        }
-
-        public void ShowMe()
-        {
-            throw new NotImplementedException();
-        }
-
         public void ShowMe(ConsoleKey consoleKey)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{consoleKey.GetString()}. {Title}");
         }
     }
 }

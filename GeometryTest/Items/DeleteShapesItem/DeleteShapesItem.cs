@@ -71,5 +71,9 @@ namespace GeometryTest.Items.DeleteShapesItem
 
             }
         }
+        public void ShowMe(ConsoleKey consoleKey)
+        {
+            Console.WriteLine($"{AppData.ConvertConsoleKeyToString(consoleKey)}. {Title}");
+        }
     }
 }

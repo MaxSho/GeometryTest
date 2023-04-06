@@ -1,4 +1,5 @@
-﻿using GeometryTest.Interface;
+﻿using GeometryTest.Data;
+using GeometryTest.Interface;
 using GeometryTest.Items.AddNewShapeItem.SubItem;
 using System;
 using System.Collections.Generic;
@@ -12,20 +13,15 @@ namespace GeometryTest.Items.AddNewShapeItem
     {
         public string Title { get; }
 
-        private ISubItem[] menuItems;
-        private ConsoleKeyInfo cki;
-        private event EventHandler<ConsoleKeyInfo> handler1;
-        private event EventHandler<ConsoleKeyInfo> handler2;
-        private event EventHandler<ConsoleKeyInfo> handler3;
-        private event EventHandler<ConsoleKeyInfo> handler4;
-        private event EventHandler<ConsoleKeyInfo> handler5;
-        private List<EventHandler<ConsoleKeyInfo>> eventHandlers;
-
+        private ConsoleKeyInfo _cki;
+        private Dictionary<ConsoleKey, ISubItem> _menuSubItems = new();
+        private List<EventHandler<ConsoleKeyInfo>> _eventHandlers =
+            new List<EventHandler<ConsoleKeyInfo>>();
         public AddNewShapeItem(string title)
         {
             this.Title = title;
 
-            menuItems = new ISubItem[]
+            var _listmenuSubItems = new ISubItem[]
             {
                 new TriangleSubItem("Triangle"),
                 new RectangleSubItem("Rectangle"),
@@ -33,21 +29,12 @@ namespace GeometryTest.Items.AddNewShapeItem
                 new CircleSubItem("Circle"),
                 new CancelSubItem("Cancel")
             };
-            handler1 += menuItems[0].Menu_handler;
-            handler2 += menuItems[1].Menu_handler;
-            handler3 += menuItems[2].Menu_handler;
-            handler4 += menuItems[3].Menu_handler;
-            handler5 += menuItems[4].Menu_handler;
-            
-
-            eventHandlers = new()
+            for (int i = 0; i < _listmenuSubItems.Length; i++)
             {
-                handler1,
-                handler2,
-                handler3,
-                handler4,
-                handler5
-            };
+                _menuSubItems.Add(AppData.s_numberingOrder[i], _listmenuSubItems[i]);
+                _eventHandlers.Add(_listmenuSubItems[i].Menu_handler);
+            }
+            
 
 
         }
@@ -58,27 +45,17 @@ namespace GeometryTest.Items.AddNewShapeItem
             while (true)
             {
                 ShowIn();
-                cki = Console.ReadKey(true);
+                _cki = Console.ReadKey(true);
 
-                if (cki.Key == ConsoleKey.D1 || cki.Key == ConsoleKey.NumPad1)
+                var indCKI = _menuSubItems.ToList().FindIndex(x => x.Key == _cki.Key);
+
+                if (indCKI != -1 && indCKI < _eventHandlers.Count)
                 {
-                    eventHandlers[0].Invoke(this, cki);
+                    _eventHandlers[indCKI].Invoke(this, _cki);
                 }
-                else if (cki.Key == ConsoleKey.D2 || cki.Key == ConsoleKey.NumPad2)
+
+                if (indCKI == _eventHandlers.Count - 1)
                 {
-                    eventHandlers[1].Invoke(this, cki);
-                }
-                else if (cki.Key == ConsoleKey.D3 || cki.Key == ConsoleKey.NumPad3)
-                {
-                    eventHandlers[2].Invoke(this, cki);
-                }
-                else if (cki.Key == ConsoleKey.D4 || cki.Key == ConsoleKey.NumPad4)
-                {
-                    eventHandlers[3].Invoke(this, cki);
-                }
-                else if (cki.Key == ConsoleKey.D5 || cki.Key == ConsoleKey.NumPad5)
-                {
-                    eventHandlers[4].Invoke(this, cki);
                     break;
                 }
             }
@@ -87,15 +64,18 @@ namespace GeometryTest.Items.AddNewShapeItem
         public void ShowIn()
         {
             Console.Clear();
-            for (int i = 0; i < menuItems.Length; i++)
+            foreach (var item in _menuSubItems)
             {
-                menuItems[i].ShowMe(i + 1);
+                item.Value.ShowMe(item.Key);
             }
         }
         public void ShowMe(int num)
         {
             Console.WriteLine($"{num}. {Title}");
         }
-
+        public void ShowMe(ConsoleKey consoleKey)
+        {
+            Console.WriteLine($"{consoleKey.GetString()}. {Title}");
+        }
     }
 }

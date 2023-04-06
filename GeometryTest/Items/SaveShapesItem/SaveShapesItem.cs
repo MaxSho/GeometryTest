@@ -82,5 +82,9 @@ namespace GeometryTest.Items.SaveShapesItem
 
             Console.ReadKey();
         }
+        public void ShowMe(ConsoleKey consoleKey)
+        {
+            Console.WriteLine($"{AppData.ConvertConsoleKeyToString(consoleKey)}. {Title}");
+        }
     }
 }

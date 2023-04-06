@@ -52,7 +52,7 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
                                 var cStr = Console.ReadLine();
                                 if (uint.TryParse(cStr, out var c))
                                 {
-                                    if (c < 0 || GeometryTest.Shapes.Triangle.IsExist(a, b, c))
+                                    if (c < 0 || !GeometryTest.Shapes.Triangle.IsExist(a, b, c))
                                         continue;
 
                                     AppData.s_shapes.Add(new GeometryTest.Shapes.Triangle(a, b, c));
@@ -77,19 +77,9 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
                 }
             }
         }
-        public void ShowMe(int num)
-        {
-            Console.WriteLine($"{num}. {Title}");
-        }
-
-        public void ShowMe()
-        {
-            throw new NotImplementedException();
-        }
-
         public void ShowMe(ConsoleKey consoleKey)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{consoleKey.GetString()}. {Title}");
         }
     }
 }

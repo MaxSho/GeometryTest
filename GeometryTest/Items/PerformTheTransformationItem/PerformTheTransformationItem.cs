@@ -51,5 +51,9 @@ namespace GeometryTest.Items.PerformTheTransformationItem
             ShowIn();
             Console.ReadKey(true);
         }
+        public void ShowMe(ConsoleKey consoleKey)
+        {
+            Console.WriteLine($"{AppData.ConvertConsoleKeyToString(consoleKey)}. {Title}");
+        }
     }
 }

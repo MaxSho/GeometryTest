@@ -29,6 +29,7 @@ namespace GeometryTest.Items.DeleteShapesItem.SubItem
                 cki = Console.ReadKey(true);
                 
                 var indCKI = AppData.s_numberingOrder.IndexOf(cki.Key);
+
                 if(indCKI !=-1 && indCKI < _menuShapeItems.Count)
                 {
                     AppData.s_shapes.RemoveAt(indCKI);
@@ -59,14 +60,10 @@ namespace GeometryTest.Items.DeleteShapesItem.SubItem
             }
             Console.WriteLine($"{AppData.s_numberingOrder[ind]}. Cancel");
         }
-        public void ShowMe(int num)
-        {
-            Console.WriteLine($"{num}. {Title}");
-        }
         public void ShowMe(ConsoleKey consoleKey)
         {
 
-            Console.WriteLine($"{AppData.ConvertConsoleKeyToString(consoleKey)}. {Title}");
+            Console.WriteLine($"{consoleKey.GetString()}. {Title}");
         }
     }
 }

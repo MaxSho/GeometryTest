@@ -41,6 +41,7 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
                                 continue;
                             AppData.s_shapes.Add(new GeometryTest.Shapes.Rectangle(width, height));
                             Console.WriteLine("Rectangle added");
+                            Console.ReadKey();
                             isExit = true;
                             break;
                         }
@@ -53,19 +54,9 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
                 }
             }
         }
-        public void ShowMe(int num)
-        {
-            Console.WriteLine($"{num}. {Title}");
-        }
-
-        public void ShowMe()
-        {
-            throw new NotImplementedException();
-        }
-
         public void ShowMe(ConsoleKey consoleKey)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{consoleKey.GetString()}. {Title}");
         }
     }
 }

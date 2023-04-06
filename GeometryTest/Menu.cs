@@ -32,7 +32,8 @@ namespace GeometryTest
                 new DeleteShapesItem("Delete shapes"),
                 new PerformTheTransformationItem("Perform the transformation"),
                 new SaveShapesItem("Save shapes"),
-                new UploadShapesItem("Upload shapes")
+                new UploadShapesItem("Upload shapes"),
+                new ExitItem("Exit")
             };
 
             for (int i = 0; i < _listmenuItems.Length; i++)
@@ -58,7 +59,8 @@ namespace GeometryTest
                 {
                     _eventHandlers[indCKI].Invoke(this, _cki);
                 }
-                else if (indCKI == _eventHandlers.Count)
+                
+                if (indCKI == _eventHandlers.Count - 1)
                 {
                     break;
                 }
@@ -71,8 +73,9 @@ namespace GeometryTest
 
             foreach (var item in _menuItems)
             {
-                item.Value.ShowMe(i + 1);
+                item.Value.ShowMe(item.Key);
             }
+
         }
     }
    

@@ -18,20 +18,9 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
         {
 
         }
-
-        public void ShowMe(int num)
-        {
-            Console.WriteLine($"{num}. {Title}");
-        }
-
-        public void ShowMe()
-        {
-            throw new NotImplementedException();
-        }
-
         public void ShowMe(ConsoleKey consoleKey)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{consoleKey.ToString()}. {Title}");
         }
     }
 }

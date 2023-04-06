@@ -29,23 +29,14 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
                         continue;
                     AppData.s_shapes.Add(new GeometryTest.Shapes.Square(width));
                     Console.WriteLine("Square added");
+                    Console.ReadKey();
                     break;
                 }
             }
         }
-        public void ShowMe(int num)
-        {
-            Console.WriteLine($"{num}. {Title}");
-        }
-
-        public void ShowMe()
-        {
-            throw new NotImplementedException();
-        }
-
         public void ShowMe(ConsoleKey consoleKey)
         {
-            throw new NotImplementedException();
+            Console.WriteLine($"{consoleKey.GetString()}. {Title}");
         }
     }
 }

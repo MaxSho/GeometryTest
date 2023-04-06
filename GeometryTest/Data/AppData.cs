@@ -10,8 +10,8 @@ namespace GeometryTest.Data
 {
     internal static class AppData
     {
-        public static List<Shape> s_shapes = new List<Shape>();
-        public static List<ConsoleKey> s_numberingOrder = new List<ConsoleKey>()
+        public static List<Shape> s_shapes = new ();
+        public static List<ConsoleKey> s_numberingOrder = new ()
         {
             ConsoleKey.D1,
             ConsoleKey.D2,
@@ -49,14 +49,5 @@ namespace GeometryTest.Data
             ConsoleKey.Y,
             ConsoleKey.Z
         };
-        public static string ConvertConsoleKeyToString(ConsoleKey consoleKey)
-        {
-            if (consoleKey >= ConsoleKey.D0 && consoleKey <= ConsoleKey.D9)
-                return consoleKey.ToString().Substring(1);
-            else
-                return consoleKey.ToString();
-        }
-      
-        
     }
 }

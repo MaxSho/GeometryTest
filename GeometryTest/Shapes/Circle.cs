@@ -31,11 +31,9 @@ namespace GeometryTest.Shapes
         {
             return Radius * 2 * Math.PI;
         }
-
-        public new Type GetType()
+        public static explicit operator Square(Circle circle)
         {
-            // Власний код для отримання типу
-            return typeof(Circle);
+            return new Square(circle.Radius * 2.0);
         }
 
     }
