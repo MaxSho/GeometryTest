@@ -21,20 +21,9 @@ namespace GeometryTest.Items.ExitItem
         {
             
         }
-
-        public void ShowIn()
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ShowMe(int num)
-        {
-            throw new NotImplementedException();
-        }
-
         public void ShowMe(ConsoleKey consoleKey)
         {
-            Console.WriteLine($"{AppData.ConvertConsoleKeyToString(consoleKey)}. {Title}");
+            Console.WriteLine($"{consoleKey.GetString()}. {Title}");
         }
     }
 }

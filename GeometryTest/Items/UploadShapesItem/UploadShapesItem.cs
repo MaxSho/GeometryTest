@@ -19,13 +19,11 @@ namespace GeometryTest.Items.UploadShapesItem
             this.Title = title;
 
         }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Member does not access instance data and can be marked as static", Justification = "Method needs access to instance data.")]
         public void ShowIn()
         {
             Console.Clear();
-        }
-        public void ShowMe(int num)
-        {
-            Console.WriteLine($"{num}. {Title}");
+            Console.WriteLine("\tUpload Shapes:");
         }
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
         {
@@ -35,7 +33,7 @@ namespace GeometryTest.Items.UploadShapesItem
 
             string? fileName = Console.ReadLine();
 
-            Console.WriteLine("Enter path of directory to load (example: C:\\temp): ");
+            Console.Write("Enter path of directory to load (example: C:\\temp): ");
 
             string? fileDir = Console.ReadLine();
 
@@ -47,38 +45,41 @@ namespace GeometryTest.Items.UploadShapesItem
                 try
                 {
                     string json;
-                    using (StreamReader file = new StreamReader(filePath))
+                    using (StreamReader file = new(filePath))
                     {
                         json = file.ReadToEnd();
                     }
 
 
-                        List<Shape> deserializedShapes = JsonConvert.DeserializeObject<List<Shape>>(json, new JsonSerializerSettings
+                        List<Shape>? deserializedShapes = JsonConvert.DeserializeObject<List<Shape>>(json, new JsonSerializerSettings
                         {
                             TypeNameHandling = TypeNameHandling.Auto
                         });
 
                     AppData.s_shapes.Clear();
-                    AppData.s_shapes.AddRange(deserializedShapes);
+                    if(deserializedShapes != null)
+                    {
+                        AppData.s_shapes.AddRange(deserializedShapes.Take(AppData.s_numberingOrder.Count - 1).ToList());
+                        if (deserializedShapes.Count > AppData.s_numberingOrder.Count - 1)
+                        {
+                            Console.WriteLine($"First {AppData.s_numberingOrder.Count - 1} shapes have  been uploaded");
+                        }
+                        else
+                        {
+                            Console.WriteLine("All shapes have  been uploaded");
+                        }
 
-                    //JsonSerializerSettings settings = new JsonSerializerSettings();
-                    //settings.TypeNameHandling = TypeNameHandling.Auto;
-                    //List<Shape> shapes;
+                    }
+                    else
+                    {
+                        throw new Exception("DeserializedShapes is null");
 
-                    //using (StreamReader file = new StreamReader(filePath))
-                    //{
-                    //    string jsonData = file.ReadToEnd();
-                    //    shapes = JsonConvert.DeserializeObject<List<Shape>>(jsonData, settings);
-                    //}
-
-                    //AppData.s_shapes.Clear();
-                    //AppData.s_shapes.AddRange(shapes);
-
-                    Console.WriteLine("All shapes have  been uploaded");
+                    }
+                    
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("Could not upload shapes from file. Error saving JSON to " + filePath + ": " + ex.Message);
+                    Console.WriteLine("Could not upload shapes from file. Error uploading JSON to " + filePath + ": " + ex.Message);
                 }
             }
             else
@@ -91,7 +92,7 @@ namespace GeometryTest.Items.UploadShapesItem
         }
         public void ShowMe(ConsoleKey consoleKey)
         {
-            Console.WriteLine($"{AppData.ConvertConsoleKeyToString(consoleKey)}. {Title}");
+            Console.WriteLine($"{consoleKey.GetString()}. {Title}");
         }
     }
 }

@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using GeometryTest.Data;
 using GeometryTest.Interface;
-using GeometryTest.Items.ViewAllShapesItem.SubItem;
 using GeometryTest.Shapes.Base;
 
 namespace GeometryTest.Items.ViewAllShapesItem
@@ -14,7 +9,6 @@ namespace GeometryTest.Items.ViewAllShapesItem
     {
         public string Title { get; }
         private Dictionary<ConsoleKey, Shape> _menuSubItems = new();
-
         public ViewAllShapesItem(string title)
         {
             this.Title = title;

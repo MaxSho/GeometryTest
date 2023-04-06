@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace GeometryTest.Data
 {
-    internal class AppNumberingOrder
+    internal static class AppMethod
     {
-
+        public static string GetString(this ConsoleKey consoleKey)
+        {
+            if (consoleKey >= ConsoleKey.D0 && consoleKey <= ConsoleKey.D9)
+                return consoleKey.ToString()[1..];
+            else
+                return consoleKey.ToString();
+        }
     }
 }

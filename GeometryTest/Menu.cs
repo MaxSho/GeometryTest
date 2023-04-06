@@ -9,6 +9,7 @@ using GeometryTest.Items.SaveShapesItem;
 using GeometryTest.Items.UploadShapesItem;
 using GeometryTest.Items.ViewAllShapesItem;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,10 +20,8 @@ namespace GeometryTest
     internal class Menu
     {
         private ConsoleKeyInfo _cki;
-
-        private Dictionary<ConsoleKey, IMenuItem> _menuItems = new();
-        private List<EventHandler<ConsoleKeyInfo>> _eventHandlers =
-            new List<EventHandler<ConsoleKeyInfo>>();
+        private readonly Dictionary<ConsoleKey, IMenuItem> _menuItems = new();
+        private readonly List<EventHandler<ConsoleKeyInfo>> _eventHandlers = new();
         public Menu() 
         {
             var _listmenuItems = new IMenuItem[]
@@ -36,7 +35,7 @@ namespace GeometryTest
                 new ExitItem("Exit")
             };
 
-            for (int i = 0; i < _listmenuItems.Length; i++)
+            for (int i = 0; i < _listmenuItems.Length && i < AppData.s_numberingOrder.Count; i++)
             {
                 _menuItems.Add(AppData.s_numberingOrder[i], _listmenuItems[i]);
                 _eventHandlers.Add(_listmenuItems[i].Menu_handler);
@@ -51,9 +50,7 @@ namespace GeometryTest
                 Show();
                 _cki = Console.ReadKey(true);
 
-                var indCKI = AppData.s_numberingOrder.IndexOf(_cki.Key);
-
-                Console.WriteLine($"  Key pressed: {_cki.Key}\n");
+                var indCKI = _menuItems.ToList().FindIndex(x => x.Key == _cki.Key);
 
                 if (indCKI != -1 && indCKI < _eventHandlers.Count)
                 {

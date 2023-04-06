@@ -12,27 +12,27 @@ namespace GeometryTest.Items.DeleteShapesItem
 {
     internal class DeleteShapesItem : IMenuItem
     {
-
-        private ConsoleKeyInfo cki;
         public bool IsCancel = false;
         public string Title { get; }
 
-        private Dictionary<ConsoleKey, ISubItem> _menuSubItems = new();
-        private List<EventHandler<ConsoleKeyInfo>> _eventHandlers = 
-            new List<EventHandler<ConsoleKeyInfo>>();
+        private ConsoleKeyInfo _cki;
+        private readonly Dictionary<ConsoleKey, ISubItem> _menuSubItems = new();
+        private readonly List<EventHandler<ConsoleKeyInfo>> _eventHandlers = new();
 
         public DeleteShapesItem(string title)
         {
             this.Title = title;
 
-            List<ISubItem> subItems = new List<ISubItem>()
+            List<ISubItem> subItems = new()
             {
                 new DeleteShapeSubItem<Triangle>("Triangle"),
                 new DeleteShapeSubItem<Rectangle>("Rectange"),
                 new DeleteShapeSubItem<Square>("Square"),
                 new DeleteShapeSubItem<Circle>("Circle"),
+                new DeleteCancelSubItem("Cancel")
+
             };
-            for (int i = 0; i < subItems.Count; i++)
+            for (int i = 0; i < subItems.Count && i < AppData.s_numberingOrder.Count; i++)
             {
                 _menuSubItems.Add(AppData.s_numberingOrder[i], subItems[i]);
                 _eventHandlers.Add(subItems[i].Menu_handler);
@@ -41,15 +41,11 @@ namespace GeometryTest.Items.DeleteShapesItem
         public void ShowIn()
         {
             Console.Clear();
+            Console.WriteLine("\tDelete New Shape:");
             foreach (var item in _menuSubItems)
             {
                 item.Value.ShowMe(item.Key);
             }
-            Console.WriteLine($"{AppData.ConvertConsoleKeyToString(AppData.s_numberingOrder[_menuSubItems.Count])}. Cancel");
-        }
-        public void ShowMe(int num)
-        {
-            Console.WriteLine($"{num}. {Title}");
         }
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
         {
@@ -57,14 +53,15 @@ namespace GeometryTest.Items.DeleteShapesItem
             {
                 ShowIn();
 
-                cki = Console.ReadKey(true);
-                var indCKI = AppData.s_numberingOrder.IndexOf(cki.Key);
+                _cki = Console.ReadKey(true);
+                var indCKI = _menuSubItems.ToList().FindIndex(x => x.Key == _cki.Key);
 
-                if(indCKI != -1 && indCKI < _eventHandlers.Count)
+                if (indCKI != -1 && indCKI < _eventHandlers.Count)
                 {
-                    _eventHandlers[indCKI].Invoke(this, cki);
+                    _eventHandlers[indCKI].Invoke(this, _cki);
                 }
-                else if(indCKI == _eventHandlers.Count)
+
+                if (indCKI == _eventHandlers.Count - 1)
                 {
                     break;
                 }
@@ -73,7 +70,7 @@ namespace GeometryTest.Items.DeleteShapesItem
         }
         public void ShowMe(ConsoleKey consoleKey)
         {
-            Console.WriteLine($"{AppData.ConvertConsoleKeyToString(consoleKey)}. {Title}");
+            Console.WriteLine($"{consoleKey.GetString()}. {Title}");
         }
     }
 }

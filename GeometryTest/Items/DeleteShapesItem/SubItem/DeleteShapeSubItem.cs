@@ -12,8 +12,8 @@ namespace GeometryTest.Items.DeleteShapesItem.SubItem
 {
     internal class DeleteShapeSubItem<TypeShape> : ISubItem
     {
-        private ConsoleKeyInfo cki;
         public string Title { get; }
+        private ConsoleKeyInfo _cki;
         private Dictionary<ConsoleKey, Shape> _menuShapeItems = new();
         public DeleteShapeSubItem(string title)
         {
@@ -26,15 +26,17 @@ namespace GeometryTest.Items.DeleteShapesItem.SubItem
             {
                 ShowIn();
 
-                cki = Console.ReadKey(true);
+                _cki = Console.ReadKey(true);
                 
-                var indCKI = AppData.s_numberingOrder.IndexOf(cki.Key);
 
-                if(indCKI !=-1 && indCKI < _menuShapeItems.Count)
+                var keyValDel = _menuShapeItems.ToList().Find(x => x.Key == _cki.Key);
+
+                if(keyValDel.Value != null)
                 {
-                    AppData.s_shapes.RemoveAt(indCKI);
+                    AppData.s_shapes.Remove(keyValDel.Value);
                 }
-                else if(indCKI == _menuShapeItems.Count)
+
+                if(_cki.Key == AppData.s_numberingOrder[_menuShapeItems.Count])
                 {
                     break;
                 }
@@ -53,12 +55,12 @@ namespace GeometryTest.Items.DeleteShapesItem.SubItem
                 if (item is TypeShape)
                 {
                     _menuShapeItems.Add(AppData.s_numberingOrder[ind], item);
-                    Console.WriteLine($"{AppData.s_numberingOrder[ind]}. {item}");
+                    Console.WriteLine($"{AppData.s_numberingOrder[ind].GetString()}. {item}");
                     ind++;
                 }
                 
             }
-            Console.WriteLine($"{AppData.s_numberingOrder[ind]}. Cancel");
+            Console.WriteLine($"{AppData.s_numberingOrder[ind].GetString()}. Cancel");
         }
         public void ShowMe(ConsoleKey consoleKey)
         {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GeometryTest.Data;
 using GeometryTest.Interface;
 
 namespace GeometryTest.Items.AddNewShapeItem.SubItem
@@ -20,7 +21,7 @@ namespace GeometryTest.Items.AddNewShapeItem.SubItem
         }
         public void ShowMe(ConsoleKey consoleKey)
         {
-            Console.WriteLine($"{consoleKey.ToString()}. {Title}");
+            Console.WriteLine($"{consoleKey.GetString()}. {Title}");
         }
     }
 }

@@ -18,15 +18,12 @@ namespace GeometryTest.Items.SaveShapesItem
         public SaveShapesItem(string title)
         {
             this.Title = title;
-
         }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Usage", "CA1822:Member does not access instance data and can be marked as static", Justification = "Method needs access to instance data.")]
         public void ShowIn()
         {
             Console.Clear();
-        }
-        public void ShowMe(int num)
-        {
-            Console.WriteLine($"{num}. {Title}");
+            Console.WriteLine("\tSave Shapes:");
         }
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
         {
@@ -36,7 +33,7 @@ namespace GeometryTest.Items.SaveShapesItem
 
             string? fileName = Console.ReadLine();
 
-            Console.WriteLine("Enter path of directory to save (example: C:\\temp): ");
+            Console.Write("Enter path of directory to save (example: C:\\temp): ");
 
             string? fileDir = Console.ReadLine();
 
@@ -56,17 +53,10 @@ namespace GeometryTest.Items.SaveShapesItem
                         TypeNameHandling = TypeNameHandling.Auto
                     });
 
-                    using(System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
+                    using(System.IO.StreamWriter file = new(filePath))
                     {
                         file.WriteLine(json);
                     }
-
-                    //using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath))
-                    //{
-                    //    JsonSerializer serializer = new JsonSerializer();
-                    //    serializer.Serialize(file, AppData.s_shapes);
-                    //}
-
                     Console.WriteLine("Saving completed successfully");
                 }
                 catch (Exception ex)
@@ -84,7 +74,7 @@ namespace GeometryTest.Items.SaveShapesItem
         }
         public void ShowMe(ConsoleKey consoleKey)
         {
-            Console.WriteLine($"{AppData.ConvertConsoleKeyToString(consoleKey)}. {Title}");
+            Console.WriteLine($"{consoleKey.GetString()}. {Title}");
         }
     }
 }

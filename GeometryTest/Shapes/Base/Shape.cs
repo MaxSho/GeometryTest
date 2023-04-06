@@ -16,6 +16,5 @@ namespace GeometryTest.Shapes.Base
         {
             return 0;
         }
-        
     }
 }

@@ -14,9 +14,8 @@ namespace GeometryTest.Items.AddNewShapeItem
         public string Title { get; }
 
         private ConsoleKeyInfo _cki;
-        private Dictionary<ConsoleKey, ISubItem> _menuSubItems = new();
-        private List<EventHandler<ConsoleKeyInfo>> _eventHandlers =
-            new List<EventHandler<ConsoleKeyInfo>>();
+        private readonly Dictionary<ConsoleKey, ISubItem> _menuSubItems = new();
+        private readonly List<EventHandler<ConsoleKeyInfo>> _eventHandlers = new();
         public AddNewShapeItem(string title)
         {
             this.Title = title;
@@ -29,14 +28,11 @@ namespace GeometryTest.Items.AddNewShapeItem
                 new CircleSubItem("Circle"),
                 new CancelSubItem("Cancel")
             };
-            for (int i = 0; i < _listmenuSubItems.Length; i++)
+            for (int i = 0; i < _listmenuSubItems.Length && i < AppData.s_numberingOrder.Count; i++)
             {
                 _menuSubItems.Add(AppData.s_numberingOrder[i], _listmenuSubItems[i]);
                 _eventHandlers.Add(_listmenuSubItems[i].Menu_handler);
             }
-            
-
-
         }
 
         public void Menu_handler(object? sender, ConsoleKeyInfo e)
@@ -44,6 +40,14 @@ namespace GeometryTest.Items.AddNewShapeItem
             
             while (true)
             {
+                if (AppData.s_shapes.Count >= AppData.s_numberingOrder.Count - 1)
+                {
+                    Console.Clear();
+                    Console.WriteLine($"The list of figures is completely filled, the maximum number of elements: {AppData.s_numberingOrder.Count - 1}");
+                    Console.ReadKey(true);
+                    break;
+                }
+
                 ShowIn();
                 _cki = Console.ReadKey(true);
 
@@ -64,14 +68,11 @@ namespace GeometryTest.Items.AddNewShapeItem
         public void ShowIn()
         {
             Console.Clear();
+            Console.WriteLine("\tAdd New Shape:");
             foreach (var item in _menuSubItems)
             {
                 item.Value.ShowMe(item.Key);
             }
-        }
-        public void ShowMe(int num)
-        {
-            Console.WriteLine($"{num}. {Title}");
         }
         public void ShowMe(ConsoleKey consoleKey)
         {

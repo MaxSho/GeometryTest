@@ -37,7 +37,7 @@ namespace GeometryTest.Shapes
         {
             return 2 * (Width + Height);
         }
-        public static explicit operator Triangle(Rectangle rectangle)
+        public static explicit operator Triangle(GeometryTest.Shapes.Rectangle rectangle)
         {
             return new Triangle(rectangle.Width, rectangle.Height,
                 Math.Sqrt(rectangle.Width * rectangle.Width +

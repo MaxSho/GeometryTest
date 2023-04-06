@@ -44,9 +44,9 @@ namespace GeometryTest.Shapes
         {
             return a < b + c && b < c + a && c < a + b;
         }
-        public static explicit operator Rectangle(Triangle triangle)
+        public static explicit operator GeometryTest.Shapes.Rectangle(Triangle triangle)
         {
-            return new Rectangle(triangle.A, triangle.B);
+            return new GeometryTest.Shapes.Rectangle(triangle.A, triangle.B);
         }
     }
 }
